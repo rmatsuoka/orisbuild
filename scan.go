@@ -2,13 +2,13 @@ package main
 
 import (
 	"bufio"
-	"strings"
 	"io"
+	"strings"
 )
 
 type Scanner struct {
-	s *bufio.Scanner
-	words []string
+	s      *bufio.Scanner
+	words  []string
 	offset int
 }
 

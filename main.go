@@ -2,11 +2,11 @@ package main
 
 import (
 	"bytes"
-	"flag"
-	"log"
-	"io"
-	"os"
 	"encoding/json"
+	"flag"
+	"io"
+	"log"
+	"os"
 )
 
 var (
@@ -29,8 +29,8 @@ func main() {
 	log.SetFlags(0)
 	flag.Parse()
 
-	oris := Oris {
-		Name: *name,
+	oris := Oris{
+		Name:  *name,
 		Delay: *delay,
 	}
 

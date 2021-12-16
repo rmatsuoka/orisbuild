@@ -1,27 +1,27 @@
 package main
 
 import (
-	"os"
-	"regexp"
-	"path/filepath"
-	"fmt"
-	"encoding/json"
-	"strings"
-	"io"
 	"bufio"
+	"encoding/json"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 type settings struct {
 	Length int
 	Prefix string
-	Macro map[string][]string
+	Macro  map[string][]string
 }
 
 type Mod struct {
 	length int
 	prefix string
-	rule [][2]string
-	macro map[string][]string
+	rule   [][2]string
+	macro  map[string][]string
 }
 
 var (
@@ -74,7 +74,7 @@ func (m *Mod) readRule(r io.Reader) error {
 
 	f := func(p, n string) string {
 		if numre.MatchString(n) {
-			return p+n
+			return p + n
 		}
 		return n
 	}
@@ -99,7 +99,7 @@ func (m *Mod) readRule(r io.Reader) error {
 				m.rule = append(m.rule, [2]string{c, x})
 			}
 		} else {
-			m.rule = append(m.rule, [2]string{f(m.prefix,r[0]), f(m.prefix,r[1])})
+			m.rule = append(m.rule, [2]string{f(m.prefix, r[0]), f(m.prefix, r[1])})
 		}
 	}
 	return s.Err()
