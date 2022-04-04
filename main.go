@@ -14,14 +14,16 @@ var (
 	seedFileName = flag.String("seed", "seed.list", "a seed file")
 	delay        = flag.Int("delay", 3, "delay")
 	name         = flag.String("name", "oritatami_system", "name")
+	count        = flag.Int("count", 1, "period count")
 )
 
 type Oris struct {
 	Name       string      `json:"name"`
 	Rule       [][2]string `json:"rule"`
-	Transcript []string    `json:"transcriptPeriod"`
+	Transcript []string    `json:"compactTranscriptPeriod"`
 	Seed       []string    `json:"seedConformation"`
 	Delay      int         `json:"delay"`
+	Count      int         `json:"periodCount"`
 }
 
 func main() {
@@ -32,6 +34,7 @@ func main() {
 	oris := Oris{
 		Name:  *name,
 		Delay: *delay,
+		Count: *count,
 	}
 
 	seedF, err := os.Open(*seedFileName)
