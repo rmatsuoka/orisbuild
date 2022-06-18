@@ -15,6 +15,7 @@ type settings struct {
 	Length int
 	Prefix string
 	Macro  map[string][]string
+	Color  string
 }
 
 type Mod struct {
@@ -22,6 +23,7 @@ type Mod struct {
 	prefix string
 	rule   [][2]string
 	macro  map[string][]string
+	color  string
 }
 
 var (
@@ -43,7 +45,7 @@ func UnmarshalMod(dir string) (*Mod, error) {
 		return nil, fmt.Errorf("unmarshal module \"%s\": %v", dir, err)
 	}
 
-	m := &Mod{length: s.Length, prefix: s.Prefix, macro: s.Macro}
+	m := &Mod{length: s.Length, prefix: s.Prefix, macro: s.Macro, color: s.Color}
 	ruleF, err := os.Open(filepath.Join(dir, "rule.pair"))
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal module \"%s\": %v", dir, err)
@@ -55,6 +57,13 @@ func UnmarshalMod(dir string) (*Mod, error) {
 	}
 
 	return m, nil
+}
+
+func (m *Mod) Color() (*CategoryColor, bool) {
+	if m.color == "" {
+		return nil, false
+	}
+	return &CategoryColor{m.color}, true
 }
 
 func (m *Mod) Transcript() []string {
