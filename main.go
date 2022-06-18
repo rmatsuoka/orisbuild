@@ -19,17 +19,13 @@ var (
 )
 
 type Oris struct {
-	Name       string                    `json:"name"`
-	Rule       [][2]string               `json:"rule"`
-	Transcript []string                  `json:"compactTranscriptPeriod"`
-	Seed       []string                  `json:"seedConformation"`
-	Delay      int                       `json:"delay"`
-	Count      int                       `json:"periodCount"`
-	Colors     map[string]*CategoryColor `json:"categoryColors"`
-}
-
-type CategoryColor struct {
-	Color string `json:"name"`
+	Name       string            `json:"name"`
+	Rule       [][2]string       `json:"rule"`
+	Transcript []string          `json:"compactTranscriptPeriod"`
+	Seed       []string          `json:"seedConformation"`
+	Delay      int               `json:"delay"`
+	Count      int               `json:"periodCount"`
+	Colors     map[string]*Color `json:"categoryColors"`
 }
 
 func main() {
@@ -79,10 +75,12 @@ func main() {
 	buf.WriteTo(os.Stdout)
 }
 
-func readModFile(r io.Reader) (rule [][2]string, transcript []string, colors map[string]*CategoryColor, err error) {
+var colorGrey = &Color{[]byte(`{"name": "grey300"}`)}
+
+func readModFile(r io.Reader) (rule [][2]string, transcript []string, colors map[string]*Color, err error) {
 	s := NewListScanner(r)
 	seenMod := make(map[string]*Mod)
-	colors = make(map[string]*CategoryColor)
+	colors = make(map[string]*Color)
 
 	for s.Scan() {
 		modName := s.Text()
@@ -114,7 +112,7 @@ func readModFile(r io.Reader) (rule [][2]string, transcript []string, colors map
 			if k == *highlightMod {
 				continue
 			}
-			colors[k] = &CategoryColor{"grey300"}
+			colors[k] = colorGrey
 		}
 	}
 

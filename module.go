@@ -15,7 +15,7 @@ type settings struct {
 	Length int
 	Prefix string
 	Macro  map[string][]string
-	Color  string
+	Color  *Color
 }
 
 type Mod struct {
@@ -23,7 +23,7 @@ type Mod struct {
 	prefix string
 	rule   [][2]string
 	macro  map[string][]string
-	color  string
+	color  *Color
 }
 
 var (
@@ -59,11 +59,11 @@ func UnmarshalMod(dir string) (*Mod, error) {
 	return m, nil
 }
 
-func (m *Mod) Color() (*CategoryColor, bool) {
-	if m.color == "" {
+func (m *Mod) Color() (*Color, bool) {
+	if m.color == nil {
 		return nil, false
 	}
-	return &CategoryColor{m.color}, true
+	return m.color, true
 }
 
 func (m *Mod) Transcript() []string {
