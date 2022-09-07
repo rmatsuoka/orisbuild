@@ -16,6 +16,7 @@ var (
 	name         = flag.String("name", "oritatami_system", "name")
 	count        = flag.Int("count", 1, "period count")
 	highlightMod = flag.String("high", "", "specify a module to highlight")
+	outFileName  = flag.String("o", "", "output to `file` instead of stdout")
 )
 
 type Oris struct {
@@ -72,7 +73,15 @@ func main() {
 		log.Fatal(err)
 	}
 	buf.WriteString("\n")
-	buf.WriteTo(os.Stdout)
+
+	f := os.Stdout
+	if *outFileName != "" {
+		f, err = os.Create(*outFileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	buf.WriteTo(f)
 }
 
 var colorGrey = &Color{[]byte(`{"name": "grey300"}`)}
